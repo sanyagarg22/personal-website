@@ -10,6 +10,7 @@ interface CanvasProps {
   brushSize: number;
   onColorPick?: (color: string) => void;
   onSizeChange?: (width: number, height: number) => void;
+  onCursorMove?: (x: number, y: number) => void;
   overlayText?: string; // Optional text to display over the canvas
   overlayText2?: string; // Optional second line of text below the first
 }
@@ -21,6 +22,7 @@ export function Canvas({
   brushSize,
   onColorPick,
   onSizeChange,
+  onCursorMove,
   overlayText,
   overlayText2
 }: CanvasProps) {
@@ -43,7 +45,7 @@ export function Canvas({
       const height = container.clientHeight - padding;
       
       if (width > 0 && height > 0) {
-        // if the size is the same, don't update and don't trigger a re-render
+        // if the size is the same, don't update and don't trigger a rerender
         setCanvasSize((prev) => {
           if (prev.width === width && prev.height === height) {
             return prev;
@@ -96,6 +98,24 @@ export function Canvas({
     };
   }, []);
 
+  const getPixelColor = useCallback((x: number, y: number): string | null => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+    
+    // Get pixel data
+    const pixel = ctx.getImageData(x, y, 1, 1).data;
+    
+    // Convert to hex
+    const r = pixel[0].toString(16).padStart(2, "0");
+    const g = pixel[1].toString(16).padStart(2, "0");
+    const b = pixel[2].toString(16).padStart(2, "0");
+    
+    return `#${r}${g}${b}`;
+  }, []);
+
   const draw = useCallback((x: number, y: number, color: string) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -127,25 +147,54 @@ export function Canvas({
     
   }, [activeTool, brushSize, lastPos]);
 
+  const fill = useCallback((x: number, y: number, color: string) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    // bfs over all the pixels 
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    // initialize queue and visited set
+    const queue: { x: number; y: number }[] = [];
+    const visited: Set<string> = new Set();
+    queue.push({ x, y });
+    visited.add(`${x},${y}`);
+
+    const xshift = [0, 0, 1, -1];
+    const yshift = [1, -1, 0, 0];
+    ctx.fillStyle = color;
+
+    while (queue.length > 0) {
+      var curr = queue.shift();
+      if (!curr) continue;
+      let currx = curr.x;
+      let curry = curr.y;
+      ctx.fillRect(currx, curry, 1, 1);
+      for (let i = 0; i < 4; i++) {
+        let newx = currx + xshift[i];
+        let newy = curry + yshift[i];
+        if (!visited.has(`${newx},${newy}`) && getPixelColor(newx, newy) === "#ffffff") {
+          queue.push({ x: newx, y: newy });
+          visited.add(`${newx},${newy}`);
+        }
+      }
+    }
+  }, [draw, getPixelColor]);
+
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const { x, y } = getCanvasCoords(e);
     const color = e.button === 2 ? secondaryColor : primaryColor;
     setCurrentColor(color);
 
     if (activeTool === "picker") {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-      
-      const pixel = ctx.getImageData(x, y, 1, 1).data;
-      const pickedColor = `#${pixel[0].toString(16).padStart(2, "0")}${pixel[1].toString(16).padStart(2, "0")}${pixel[2].toString(16).padStart(2, "0")}`;
+      let pickedColor: string | null = getPixelColor(x, y);
+      if (!pickedColor) return;
       onColorPick?.(pickedColor);
       return;
     }
 
     if (activeTool === "fill") {
-      // TODO: Implement flood fill
+      fill(x, y, color);
       return;
     }
 
@@ -160,10 +209,16 @@ export function Canvas({
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const { x, y } = getCanvasCoords(e);
+    
+    // Report cursor position
+    onCursorMove?.(Math.round(x), Math.round(y));
+    
     if (!isDrawing) return;
     
-    const { x, y } = getCanvasCoords(e);
-    draw(x, y, currentColor);
+    // Use white for eraser, otherwise use the current color
+    const color = activeTool === "eraser" ? "#ffffff" : currentColor;
+    draw(x, y, color);
     setLastPos({ x, y });
   };
 
@@ -246,9 +301,15 @@ export function Canvas({
               </div>
             )}
             {overlayText2 && (
-              <div className="text-gray-600 text-3xl mt-2">
-                {overlayText2}
+              <div>
+                <div className="text-gray-600 text-xl mt-2">
+                  {overlayText2}
+                </div>
+                <div className="text-gray-600 text-xl mt-2" style={{ color: "#7092be" }}>
+                  {"feel free to make a doodle or two while you're here :)"}
+                </div>
               </div>
+              
             )}
           </div>
         )}
