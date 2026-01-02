@@ -84,6 +84,10 @@ export function Canvas({
     if (!isInitialized && canvasSize.width > 0 && canvasSize.height > 0) {
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
+      
+      // Disable anti-aliasing to prevent fill tool issues
+      ctx.imageSmoothingEnabled = false;
+      
       setIsInitialized(true);
     }
   }, [canvasSize, isInitialized]);
@@ -157,6 +161,7 @@ export function Canvas({
 
     const queue: { x: number; y: number }[] = [];
     const visited: Set<string> = new Set();
+    
     queue.push({ x: Math.floor(x), y: Math.floor(y) });
     visited.add(`${Math.floor(x)},${Math.floor(y)}`);
 
@@ -232,36 +237,40 @@ export function Canvas({
   };
 
 
-  // For Projects and About Me tabs, render completely separate non-canvas pages
-  if (activeTab === "Projects") {
-    return <Projects />;
-  }
-
-  if (activeTab === "About Me") {
-    return <AboutMe />;
-  }
+  const showCanvas = activeTab === "Home" || activeTab === "Free Paint";
+  const showProjects = activeTab === "Projects";
+  const showAboutMe = activeTab === "About Me";
 
   return (
-    <div 
-      ref={containerRef} 
-      className="flex-1 bg-[#c0c0c0] p-4 overflow-hidden"
-    >
-      <div className="relative inline-block">
-        <canvas
-          ref={canvasRef}
-          width={canvasSize.width}
-          height={canvasSize.height}
-          className="bg-white cursor-crosshair shadow-md"
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          onContextMenu={handleContextMenu}
-        />
-        {activeTab === "Home" && <Home />}
-        {activeTab === "Free Paint" && <FreePaint />}
+    <>
+      {/* Canvas - always mounted to preserve drawing, but hidden when not needed */}
+      <div 
+        ref={containerRef} 
+        className={`flex-1 bg-[#c0c0c0] p-4 overflow-hidden ${showCanvas ? '' : 'hidden'}`}
+      >
+        <div className="relative inline-block">
+          <canvas
+            ref={canvasRef}
+            width={canvasSize.width}
+            height={canvasSize.height}
+            className="bg-white cursor-crosshair shadow-md"
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            onContextMenu={handleContextMenu}
+          />
+          {activeTab === "Home" && <Home />}
+          {activeTab === "Free Paint" && <FreePaint />}
+        </div>
       </div>
-    </div>
+
+      {/* Projects page - shown when Projects tab is active */}
+      {showProjects && <Projects />}
+
+      {/* About Me page - shown when About Me tab is active */}
+      {showAboutMe && <AboutMe />}
+    </>
   );
 }
 
