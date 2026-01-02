@@ -11,6 +11,9 @@ interface RibbonProps {
   secondaryColor: string;
   onPrimaryColorChange: (color: string) => void;
   onSecondaryColorChange: (color: string) => void;
+  onSave: () => void;
+  onUndo: () => void;
+  onRedo: () => void;
 }
 
 const PRESET_COLORS = [
@@ -34,6 +37,9 @@ export function Ribbon({
   secondaryColor,
   onPrimaryColorChange,
   onSecondaryColorChange,
+  onSave,
+  onUndo,
+  onRedo,
 }: RibbonProps) {
   const ToolButton = ({ 
     tool, 
@@ -73,17 +79,62 @@ export function Ribbon({
 
   return (
     <div className="bg-[#f5f6f7] border-b border-[#d0d0d0]">
-      {/* Tabs */}
-      <div className="flex items-center bg-[#dce8f5]">
-        <button className="px-3 py-1 text-xs font-medium text-white bg-[#2b579a] hover:bg-[#1e4174] flex items-center gap-1">
-          Sanya Garg
-        </button>
-        <button className="px-4 py-1.5 text-xs bg-[#f5f6f7] border-x border-t border-[#d0d0d0] rounded-t -mb-px">
-          Home
-        </button>
-        <button className="px-4 py-1.5 text-xs text-gray-600 hover:bg-[#e5e5e5]">
-          About Me
-        </button>
+      {/* Tabs with Title Bar */}
+      <div className="flex items-center bg-[#dce8f5] border-b border-[#b8d0ec]">
+        {/* Left side - File button and tabs */}
+        <div className="flex items-center">
+          <button className="px-3 py-1 text-xs font-medium text-white bg-[#2b579a] hover:bg-[#1e4174] flex items-center gap-1">
+            Sanya Garg
+          </button>
+          <button className="px-4 py-1.5 text-xs bg-[#f5f6f7] border-x border-t border-[#d0d0d0] rounded-t -mb-px">
+            Home
+          </button>
+          <button className="px-4 py-1.5 text-xs text-gray-600 hover:bg-[#e5e5e5]">
+            About Me
+          </button>
+        </div>
+
+        {/* Right side - Quick access and window controls */}
+        <div className="flex items-center ml-auto">
+          {/* Quick Access Toolbar */}
+          <div className="flex items-center gap-0.5 px-1 border-r border-[#b8d0ec]">
+            <button
+              onClick={onSave}
+              className="w-5 h-5 flex items-center justify-center hover:bg-[#c4daf3] rounded"
+              title="Save (Ctrl+S)"
+            >
+              💾
+            </button>
+            <button
+              onClick={onUndo}
+              className="w-5 h-5 flex items-center justify-center hover:bg-[#c4daf3] rounded"
+              title="Undo (Ctrl+Z)"
+            >
+              ↩
+            </button>
+            <button
+              onClick={onRedo}
+              className="w-5 h-5 flex items-center justify-center hover:bg-[#c4daf3] rounded"
+              title="Redo (Ctrl+Y)"
+            >
+              ↪
+            </button>
+            <span className="text-[10px] text-gray-500 ml-1">▼</span>
+          </div>
+
+          {/* Window Controls */}
+          <div className="flex items-center">
+            <button className="w-11 h-7 flex items-center justify-center hover:bg-[#c4daf3] text-gray-600">
+              ─
+            </button>
+            <button className="w-11 h-7 flex items-center justify-center hover:bg-[#c4daf3] text-gray-600">
+              □
+            </button>
+            <button className="w-11 h-7 flex items-center justify-center hover:bg-[#e81123] hover:text-white text-gray-600">
+              ✕
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Ribbon Content */}

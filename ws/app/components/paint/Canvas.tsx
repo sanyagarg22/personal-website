@@ -11,8 +11,8 @@ interface CanvasProps {
   onColorPick?: (color: string) => void;
   onSizeChange?: (width: number, height: number) => void;
   onCursorMove?: (x: number, y: number) => void;
-  overlayText?: string; // Optional text to display over the canvas
-  overlayText2?: string; // Optional second line of text below the first
+  overlayText?: string; 
+  overlayText2?: string; 
 }
 
 export function Canvas({ 
@@ -105,10 +105,8 @@ export function Canvas({
     const ctx = canvas.getContext("2d");
     if (!ctx) return null;
     
-    // Get pixel data
     const pixel = ctx.getImageData(x, y, 1, 1).data;
     
-    // Convert to hex
     const r = pixel[0].toString(16).padStart(2, "0");
     const g = pixel[1].toString(16).padStart(2, "0");
     const b = pixel[2].toString(16).padStart(2, "0");
@@ -123,16 +121,13 @@ export function Canvas({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    color = activeTool === "eraser" ? "#ffffff" : color;
+
     ctx.fillStyle = color;
     ctx.strokeStyle = color;
     ctx.lineWidth = brushSize;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
-
-    if (activeTool === "eraser") {
-      ctx.fillStyle = "#ffffff";
-      ctx.strokeStyle = "#ffffff";
-    }
 
     if (lastPos) {
       ctx.beginPath();
@@ -150,11 +145,9 @@ export function Canvas({
   const fill = useCallback((x: number, y: number, color: string) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
-    // bfs over all the pixels 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    // initialize queue and visited set
+
     const queue: { x: number; y: number }[] = [];
     const visited: Set<string> = new Set();
     queue.push({ x, y });
@@ -210,15 +203,9 @@ export function Canvas({
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const { x, y } = getCanvasCoords(e);
-    
-    // Report cursor position
     onCursorMove?.(Math.round(x), Math.round(y));
-    
     if (!isDrawing) return;
-    
-    // Use white for eraser, otherwise use the current color
-    const color = activeTool === "eraser" ? "#ffffff" : currentColor;
-    draw(x, y, color);
+    draw(x, y, currentColor);
     setLastPos({ x, y });
   };
 
@@ -231,53 +218,6 @@ export function Canvas({
     e.preventDefault();
   };
 
-  // Helper function to draw text on the canvas
-  const drawText = useCallback((
-    text: string, 
-    x: number, 
-    y: number, 
-    options?: {
-      fontSize?: number;
-      fontFamily?: string;
-      color?: string;
-      align?: "left" | "center" | "right";
-      baseline?: "top" | "middle" | "bottom";
-    }
-  ) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const {
-      fontSize = 24,
-      fontFamily = "Arial",
-      color = primaryColor,
-      align = "left",
-      baseline = "top"
-    } = options || {};
-
-    ctx.fillStyle = color;
-    ctx.font = `${fontSize}px ${fontFamily}`;
-    ctx.textAlign = align;
-    ctx.textBaseline = baseline;
-    ctx.fillText(text, x, y);
-  }, [primaryColor]);
-
-  // Example: Draw text when canvas is initialized
-  // Uncomment and modify this to add your text:
-  /*
-  useEffect(() => {
-    if (isInitialized && canvasSize.width > 0 && canvasSize.height > 0) {
-      drawText("Hello World", 50, 50, {
-        fontSize: 32,
-        color: "#000000",
-        fontFamily: "Arial"
-      });
-    }
-  }, [isInitialized, canvasSize, drawText]);
-  */
 
   return (
     <div ref={containerRef} className="flex-1 overflow-hidden bg-[#c0c0c0] p-4">

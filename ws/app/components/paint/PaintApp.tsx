@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { TitleBar } from "./TitleBar";
 import { Ribbon } from "./Ribbon";
 import { Canvas } from "./Canvas";
 import { StatusBar } from "./StatusBar";
@@ -60,15 +59,7 @@ export function PaintApp() {
 
   return (
     <div className="flex flex-col h-screen bg-[#f0f0f0] font-['Segoe_UI',sans-serif]">
-      {/* Title Bar */}
-      <TitleBar 
-        onNew={handleNewCanvas}
-        onSave={handleSave}
-        onUndo={handleUndo}
-        onRedo={handleRedo}
-      />
-      
-      {/* Ribbon */}
+      {/* Ribbon (includes title bar) */}
       <Ribbon
         activeTool={activeTool}
         onToolChange={setActiveTool}
@@ -78,6 +69,9 @@ export function PaintApp() {
         secondaryColor={secondaryColor}
         onPrimaryColorChange={setPrimaryColor}
         onSecondaryColorChange={setSecondaryColor}
+        onSave={handleSave}
+        onUndo={handleUndo}
+        onRedo={handleRedo}
       />
       
       {/* Canvas Area */}
