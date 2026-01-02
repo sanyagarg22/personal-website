@@ -60,6 +60,11 @@ export function PaintApp() {
     setActiveTool("pencil");
   };
 
+  const handleTabChange = (tab: string) => {
+    setActiveTool("pencil");
+    setActiveTab(tab);
+  };
+
   return (
     <div className="flex flex-col h-screen bg-[#f0f0f0] font-['Segoe_UI',sans-serif]">
       {/* Ribbon (includes title bar) */}
@@ -76,7 +81,7 @@ export function PaintApp() {
         onUndo={handleUndo}
         onRedo={handleRedo}
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={handleTabChange}
       />
       
       {/* Canvas Area */}

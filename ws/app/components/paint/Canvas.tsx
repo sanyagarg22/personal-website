@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import { Tool } from "./types";
+import { Projects } from "./Projects";
 
 interface CanvasProps {
   primaryColor: string;
@@ -230,6 +231,11 @@ export function Canvas({
   };
 
 
+  // For Projects tab, render a completely separate non-canvas page
+  if (activeTab === "Projects") {
+    return <Projects />;
+  }
+
   return (
     <>
       <div 
@@ -328,6 +334,28 @@ export function Icons(){
   )
 }
 
+// Work experience data - replace with your actual experiences
+const workExperiences = [
+  {
+    company: "Company Name",
+    role: "Software Engineer",
+    period: "2023 - Present",
+    description: "Brief description of your role and key achievements.",
+  },
+  {
+    company: "Another Company",
+    role: "Intern / Junior Developer",
+    period: "2022 - 2023",
+    description: "What you did and learned during this experience.",
+  },
+  {
+    company: "Third Company",
+    role: "Position Title",
+    period: "2021 - 2022",
+    description: "Another work experience description.",
+  },
+];
+
 export function AboutMe(){
   return (
     <div className="absolute top-1/6 left-1/16 pointer-events-none p-4 flex items-start gap-29">
@@ -337,6 +365,34 @@ export function AboutMe(){
         </div>
         <div className="text-gray-600 text-xl mt-8 max-w-2xl">
           I'm a software engineer and recent graduate from Rice University currently based in the SF bay area. In addition to doodling in Microsoft Paint, I like to dabble in many forms of art, try new foods and restaurants (and keep track of them on Beli), and play pickleball and squash. Feel free to check out some of my art and other projects below!
+        </div>
+        
+        {/* Work Experience Section */}
+        <div className="mt-10">
+          <h3 className="text-3xl font-bold mb-6" style={{ color: "#7092be" }}>
+            experience
+          </h3>
+          <div className="flex flex-col gap-4 max-w-2xl">
+            {workExperiences.map((experience, index) => (
+              <div 
+                key={index}
+                className="bg-white rounded-lg border-2 border-[#b8d0ec] p-5 shadow-sm hover:shadow-md hover:border-[#7092be] transition-all"
+              >
+                <div className="flex items-start justify-between mb-2">
+                  <div>
+                    <h4 className="text-lg font-bold text-gray-800">{experience.role}</h4>
+                    <p className="text-[#7092be] font-medium">{experience.company}</p>
+                  </div>
+                  <span className="text-sm text-gray-500 whitespace-nowrap ml-4">
+                    {experience.period}
+                  </span>
+                </div>
+                <p className="text-gray-600 text-sm mt-2">
+                  {experience.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <div className="flex-shrink-0 ">

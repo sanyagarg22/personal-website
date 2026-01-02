@@ -111,6 +111,16 @@ export function Ribbon({
             About Me
           </button>
           <button 
+            onClick={() => onTabChange("Projects")}
+            className={`px-4 py-1.5 text-xs ${
+              activeTab === "Projects"
+                ? "bg-[#f5f6f7] border-x border-t border-[#d0d0d0] rounded-t -mb-px"
+                : "text-gray-600 hover:bg-[#e5e5e5]"
+            }`}
+          >
+            Projects
+          </button>
+          <button 
             onClick={() => onTabChange("Free Paint")}
             className={`px-4 py-1.5 text-xs ${
               activeTab === "Free Paint"
@@ -124,31 +134,33 @@ export function Ribbon({
 
         {/* Right side - Quick access and window controls */}
         <div className="flex items-center ml-auto">
-          {/* Quick Access Toolbar */}
-          <div className="flex items-center gap-0.5 px-1 border-r border-[#b8d0ec]">
-            <button
-              onClick={onSave}
-              className="w-5 h-5 flex items-center justify-center hover:bg-[#c4daf3] rounded"
-              title="Save (Ctrl+S)"
-            >
-              💾
-            </button>
-            <button
-              onClick={onUndo}
-              className="w-5 h-5 flex items-center justify-center hover:bg-[#c4daf3] rounded"
-              title="Undo (Ctrl+Z)"
-            >
-              ↩
-            </button>
-            <button
-              onClick={onRedo}
-              className="w-5 h-5 flex items-center justify-center hover:bg-[#c4daf3] rounded"
-              title="Redo (Ctrl+Y)"
-            >
-              ↪
-            </button>
-            <span className="text-[10px] text-gray-500 ml-1">▼</span>
-          </div>
+          {/* Quick Access Toolbar - hidden on Projects page */}
+          {activeTab !== "Projects" && (
+            <div className="flex items-center gap-0.5 px-1 border-r border-[#b8d0ec]">
+              <button
+                onClick={onSave}
+                className="w-5 h-5 flex items-center justify-center hover:bg-[#c4daf3] rounded"
+                title="Save (Ctrl+S)"
+              >
+                💾
+              </button>
+              <button
+                onClick={onUndo}
+                className="w-5 h-5 flex items-center justify-center hover:bg-[#c4daf3] rounded"
+                title="Undo (Ctrl+Z)"
+              >
+                ↩
+              </button>
+              <button
+                onClick={onRedo}
+                className="w-5 h-5 flex items-center justify-center hover:bg-[#c4daf3] rounded"
+                title="Redo (Ctrl+Y)"
+              >
+                ↪
+              </button>
+              <span className="text-[10px] text-gray-500 ml-1">▼</span>
+            </div>
+          )}
 
           {/* Window Controls */}
           <div className="flex items-center">
@@ -165,7 +177,8 @@ export function Ribbon({
         </div>
       </div>
 
-      {/* Ribbon Content */}
+      {/* Ribbon Content - hidden on Projects page */}
+      {activeTab !== "Projects" && (
       <div className="flex items-stretch px-2 py-1 h-[90px]">
         {/* Clipboard Group */}
         <div className="flex flex-col items-center h-full">
@@ -359,6 +372,7 @@ export function Ribbon({
           <GroupLabel>Colors</GroupLabel>
         </div>
       </div>
+      )}
     </div>
   );
 }
