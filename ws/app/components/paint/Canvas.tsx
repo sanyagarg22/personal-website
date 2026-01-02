@@ -233,26 +233,17 @@ export function Canvas({
           onMouseLeave={handleMouseUp}
           onContextMenu={handleContextMenu}
         />
-        {(overlayText || overlayText2) && (
           <div className="absolute top-1/3 left-1/16 pointer-events-none p-4">
-            {overlayText && (
               <div className="text-7xl font-bold" style={{ color: "#c8bfe7" }}>
-                {overlayText}
+                hello!
               </div>
-            )}
-            {overlayText2 && (
-              <div>
-                <div className="text-gray-600 text-xl mt-2">
-                  {overlayText2}
-                </div>
-                <div className="text-gray-600 text-xl mt-2" style={{ color: "#7092be" }}>
-                  {"feel free to make a doodle or two while you're here :)"}
-                </div>
+              <div className="text-gray-600 text-xl mt-2">
+                welcome to my personal website inspired by the legacy microsoft paint app.
               </div>
-              
-            )}
+              <div className="text-gray-600 text-xl mt-2" style={{ color: "#7092be" }}>
+                feel free to make a doodle or two while you're here :)
+              </div>
           </div>
-        )}
       </div>
     </div>
   );

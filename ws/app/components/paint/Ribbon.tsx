@@ -83,13 +83,13 @@ export function Ribbon({
       <div className="flex items-center bg-[#dce8f5] border-b border-[#b8d0ec]">
         {/* Left side - File button and tabs */}
         <div className="flex items-center">
-          <button className="px-3 py-1 text-xs font-medium text-white bg-[#2b579a] hover:bg-[#1e4174] flex items-center gap-1">
+          <button className="px-3 py-1 text-s font-medium text-white bg-[#2b579a] hover:bg-[#1e4174] flex items-center gap-1">
             Sanya Garg
           </button>
-          <button className="px-4 py-1.5 text-xs bg-[#f5f6f7] border-x border-t border-[#d0d0d0] rounded-t -mb-px">
+          <button className="px-4 py-1.5 text-s bg-[#f5f6f7] border-x border-t border-[#d0d0d0] rounded-t -mb-px">
             Home
           </button>
-          <button className="px-4 py-1.5 text-xs text-gray-600 hover:bg-[#e5e5e5]">
+          <button className="px-4 py-1.5 text-s text-gray-600 hover:bg-[#e5e5e5]">
             About Me
           </button>
         </div>
@@ -197,7 +197,7 @@ export function Ribbon({
             <ToolButton tool="brush" icon="🔍" label="Magnifier" />
           </div>
           <div className="flex items-center gap-0.5 mb-0.5">
-            <button
+            {/* <button
               onClick={() => onToolChange("brush")}
               className={`flex flex-col items-center justify-center w-12 h-9 rounded-sm
                 ${activeTool === "brush"
@@ -207,7 +207,7 @@ export function Ribbon({
             >
               <span className="text-lg">🖌️</span>
               <span className="text-[8px]">Brushes ▼</span>
-            </button>
+            </button> */}
           </div>
           <GroupLabel>Tools</GroupLabel>
         </div>
@@ -226,10 +226,10 @@ export function Ribbon({
               <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">▷</button>
               <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">◇</button>
               <ToolButton tool="ellipse" icon="⬭" label="Ellipse" />
-              <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">⭐</button>
+              {/* <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">⭐</button>
               <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">💬</button>
               <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">❤️</button>
-              <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-[8px]">▼</button>
+              <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-[8px]">▼</button> */}
             </div>
             <div className="flex flex-col gap-0.5">
               <button className="flex items-center gap-1 px-1 h-6 hover:bg-[#e5e5e5] rounded-sm text-[10px] border border-gray-300">
