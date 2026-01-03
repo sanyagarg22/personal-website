@@ -12,10 +12,10 @@ interface ProjectProps {
 
 function ProjectItem({ title, description, tags, githubUrl, liveUrl, year, index }: ProjectProps & { index: number }) {
   return (
-    <div className="py-8 border-b border-[#b8d0ec] last:border-b-0 group">
+    <div className="py-8 border-b border-[#948ab8] last:border-b-0 group">
       <div className="flex items-start gap-8">
         {/* Number/Index */}
-        <div className="text-4xl font-bold text-gray-300 group-hover:text-[#7092be] transition-colors w-16 flex-shrink-0">
+        <div className="text-4xl font-bold text-gray-300 group-hover:text-[#948ab8] transition-colors w-16 flex-shrink-0">
           {String(index + 1).padStart(2, '0')}
         </div>
         
@@ -65,8 +65,11 @@ function ProjectItem({ title, description, tags, githubUrl, liveUrl, year, index
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-[#7092be] transition-colors underline text-sm"
                 >
-                  live site
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                  </svg>
                 </a>
+
               )}
             </div>
           </div>
@@ -79,48 +82,42 @@ function ProjectItem({ title, description, tags, githubUrl, liveUrl, year, index
 // Sample projects data - replace with your actual projects
 const projectsData: ProjectProps[] = [
   {
+    title: "Oil Production Prediction",
+    description: "Cleaned and engineered an incomplete oil-well dataset and trained random forest, neural network, and gradient-boosting models to predict peak production. We achieved the lowest RMSE in the Chevron challenge and won 1st place at the Rice Datathon.",
+    tags: ["Python", "Pytorch", "TensorFlow"],
+    githubUrl: "https://github.com/kanaifu/datathon2024",
+    liveUrl: "https://devpost.com/software/super-models-squared-chevron-track",
+    year: "2024",
+  },
+  {
+    title: "A Study of Prefix Sharing in LLM Serving",
+    description: "Modified vLLM to use a trace-driven simulator and systematically evaluate prefix sharing across multiple workloads. We designed and evaluated an optimized eviction policy for mixed workloads that reduced time-to-first-token by up to 8%.",
+    tags: ["Python", "vLLM"],
+    liveUrl: "/COMP_436_Project.pdf",
+    year: "2025",
+  },
+  {
+    title: "THEA-AA Superfund and Air Quality Dashboard",
+    description: "A website that enables users to explore and visualize nearby federal Superfund sites and local air quality data for the Texas Health and Environment Alliance (THEA) and Air Alliance (AA).",
+    tags: ["Svelte", "Typescript", "Django", "Python", "Tailwind CSS"],
+    githubUrl: "https://github.com/rice-apps/thea-aa",
+    liveUrl: "https://thea-aa.pages.dev/",
+    year: "2024-2025",
+  },
+  {
     title: "Personal Website",
-    description: "A creative personal website inspired by Microsoft Paint, built with Next.js and React. Features interactive drawing canvas, multiple themed pages, and responsive design.",
+    description: "This personal website inspired by Microsoft Paint! Features an interactive drawing canvas, multiple themed pages, and a responsive design.",
     tags: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
-    githubUrl: "https://github.com/sanyagarg22/personal-website",
+    githubUrl: "https://github.com/sanyagarg22/personal-ws",
     liveUrl: "#",
     year: "2026",
   },
   {
-    title: "Project Two",
-    description: "Add your project description here. Explain what the project does, what technologies you used, and what you learned from building it.",
-    tags: ["Python", "Machine Learning", "TensorFlow"],
-    githubUrl: "https://github.com/sanyagarg22/project-two",
-    year: "2025",
-  },
-  {
-    title: "Project Three",
-    description: "Another awesome project you've worked on. Share the technical challenges you overcame and the impact of the project.",
-    tags: ["Java", "Spring Boot", "PostgreSQL"],
-    githubUrl: "https://github.com/sanyagarg22/project-three",
-    liveUrl: "#",
-    year: "2025",
-  },
-  {
-    title: "Project Four",
-    description: "Description of your fourth project. What problem does it solve? What makes it unique or interesting?",
-    tags: ["React Native", "Firebase", "Mobile"],
-    githubUrl: "https://github.com/sanyagarg22/project-four",
-    year: "2024",
-  },
-  {
-    title: "Project Five",
-    description: "Share details about another project. Include any notable features, collaborations, or achievements.",
-    tags: ["Node.js", "Express", "MongoDB"],
-    githubUrl: "https://github.com/sanyagarg22/project-five",
-    year: "2024",
-  },
-  {
-    title: "Project Six",
-    description: "Your sixth project goes here. Don't forget to update the GitHub links and add live demo URLs where applicable!",
-    tags: ["C++", "OpenGL", "Graphics"],
-    githubUrl: "https://github.com/sanyagarg22/project-six",
-    year: "2023",
+    title: "Zero-Shot Image Classification with BLISS",
+    description: "Built a zero-shot image classification system using ResNet feature extraction and BLISS clustering to organize images into balanced semantic groups and associate unseen classes with labels.",
+    tags: ["Python", "Pytorch"],
+    liveUrl: "/COMP_480_Project.pdf",
+    year: "2023-2025",
   },
 ];
 
@@ -130,7 +127,7 @@ export function Projects() {
       <div className="max-w-6xl mx-auto px-8 py-20">
         {/* Header */}
         <div className="mb-16">
-          <h1 className="text-6xl font-bold mb-4" style={{ color: "#7092be" }}>
+          <h1 className="text-7xl font-bold mb-4" style={{ color: "#7092be" }}>
             projects
           </h1>
         </div>
@@ -143,7 +140,7 @@ export function Projects() {
         </div>
 
         {/* Footer */}
-        <div className="mt-16 pt-8 border-t border-[#b8d0ec]">
+        <div className="mt-16 pt-8 border-t border-[#948ab8]">
           <a 
             href="https://github.com/sanyagarg22" 
             target="_blank" 

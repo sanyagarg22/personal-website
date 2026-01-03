@@ -89,9 +89,14 @@ export function Ribbon({
         <div className="flex items-end gap-4">
           <button 
             onClick={() => onTabChange("Home")}
-            className="px-4 py-2 text-md font-semibold text-[#7092be] rounded-t transition-colors flex items-center gap-2 mb-0"
+            className="px-4 py-2 text-md font-semibold text-[#948ab8] rounded-t transition-colors flex items-center gap-2 mb-0"
           >
-            <span>sanya garg</span>
+            {/* <span>sanya garg</span> */}
+            <img
+              src="/sg2.png"
+              alt="hello doodle"
+              className="w-10 h-6 object-cover"
+            />
           </button>
           
           {/* Navigation Tabs - Connected to content below */}

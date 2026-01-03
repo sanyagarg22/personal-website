@@ -3,35 +3,46 @@
 // Work experience data - replace with your actual experiences
 const workExperiences = [
   {
-    company: "Company Name",
-    role: "Software Engineer",
-    period: "2023 - Present",
-    description: "Brief description of your role and key achievements.",
+    company: "Datadog",
+    role: "Software Engineering Intern",
+    period: "Summer 2025",
+    description: "Developed a Go-based MCP server with dynamic tool generation from protocol buffers, enabling LLM-driven interactions with Datadog's metrics platform infrastructure, sharding, and deployments.",
   },
   {
-    company: "Another Company",
-    role: "Intern / Junior Developer",
-    period: "2022 - 2023",
-    description: "What you did and learned during this experience.",
+    company: "Rice University",
+    role: "Undergraduate Researcher",
+    period: "2023-2025",
+    description: "Adapted the BLISS deep learning algorithm to implement class-incremental learning.",
   },
   {
-    company: "Third Company",
-    role: "Position Title",
-    period: "2021 - 2022",
-    description: "Another work experience description.",
+    company: "Capella Space",
+    role: "Software Engineering Intern",
+    period: "Summer 2024",
+    description: "Developed a Python library to streamline the creation and validation of spacecraft commands.",
   },
+  // {
+  //   company: "GE Healthcare",
+  //   role: "Software Engineering Intern",
+  //   period: "Summer 2023",
+  //   description: "Scaled and modernized the Emitter Calibration tool by migrating it to a microservices architecture and enabling reliable deployment on CT machines.",
+  // },
 ];
 
 export function AboutMe() {
   return (
     <div className="flex-1  overflow-auto">
       <div className="max-w-7xl mx-auto px-8 py-20">
-        <div className="flex items-start">
-          <div className="flex-1">
-            <div className="text-7xl font-bold mb-8" style={{ color: "#7092be" }}>
+        <div className="flex items-start gap-30">
+          <div className="flex-1 max-w-2xl">
+            {/* <div className="text-7xl font-bold mb-8" style={{ color: "#7092be" }}>
               about me
-            </div>
-            <div className="text-gray-600 text-xl mb-10 max-w-2xl">
+            </div> */}
+            <img
+              src="/hello.png"
+              alt="hello doodle"
+              className="w-50 h-30 object-cover"
+            />
+            <div className="text-gray-600 text-xl mb-10 mt-10">
               I'm a software engineer and recent graduate from Rice University currently based in the SF bay area. In addition to doodling in Microsoft Paint, I like to dabble in many forms of art, try new foods and restaurants (and keep track of them on Beli), and play pickleball and squash. Feel free to check out some of my art and other projects below!
             </div>
             
@@ -40,16 +51,16 @@ export function AboutMe() {
               <h3 className="text-3xl font-bold mb-6" style={{ color: "#7092be" }}>
                 work experience
               </h3>
-              <div className="flex flex-col gap-4 max-w-2xl">
+              <div className="flex flex-col gap-4">
                 {workExperiences.map((experience, index) => (
                   <div 
                     key={index}
-                    className="bg-white rounded-lg border-2 border-[#b8d0ec] p-5 shadow-sm hover:shadow-md hover:border-[#7092be] transition-all"
+                    className="bg-white rounded-lg border-2 border-[#948ab8] p-5 shadow-sm hover:shadow-md hover:border-[#7092be] transition-all"
                   >
                     <div className="flex items-start justify-between mb-2">
                       <div>
                         <h4 className="text-lg font-bold text-gray-800">{experience.role}</h4>
-                        <p className="text-[#7092be] font-medium">{experience.company}</p>
+                        <p className="text-[#948ab8] font-medium">{experience.company}</p>
                       </div>
                       <span className="text-sm text-gray-500 whitespace-nowrap ml-4">
                         {experience.period}
@@ -63,7 +74,7 @@ export function AboutMe() {
               </div>
             </div>
           </div>
-          <div className="flex-shrink-0 -ml-8">
+          <div className="flex-shrink-0">
             <img 
               src="/pfp.jpg" 
               alt="Profile Picture" 
@@ -75,7 +86,7 @@ export function AboutMe() {
       </div>
       
       {/* Art Gallery Section */}
-      <Art />
+      {/* <Art /> */}
     </div>
   );
 }

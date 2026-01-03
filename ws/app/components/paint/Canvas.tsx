@@ -79,13 +79,11 @@ export function Canvas({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Only fill with white on first init, not on every resize
-    // (to preserve drawing when resizing)
+    // Only fill with white on first init, not on every resize to preserve drawing when resizing
     if (!isInitialized && canvasSize.width > 0 && canvasSize.height > 0) {
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
       
-      // Disable anti-aliasing to prevent fill tool issues
       ctx.imageSmoothingEnabled = false;
       
       setIsInitialized(true);
@@ -279,17 +277,17 @@ export function Home(){
     <div className="absolute top-1/4 left-1/16 pointer-events-none p-4">
 
     <div className="text-7xl font-bold pointer-events-none">
-        <img 
-          src="/hello.png" 
-          alt="hello doodle" 
-          className="w-60 h-35 object-cover"
+        <img
+          src="/sanya_cursive.png"
+          alt="hello doodle"
+          className="w-120 h-40 object-cover -ml-8"
         />
       </div>
         <div className="text-gray-600 text-xl mt-2 pointer-events-none">
           welcome to my personal website inspired by the legacy microsoft paint app.
         </div>
-        <div className="text-gray-600 text-xl mt-2 pointer-events-none" style={{ color: "#c8bfe7" }}>
-          feel free to make a doodle or two while you're here :)
+        <div className="text-gray-600 text-xl mt-2 pointer-events-none" style={{ color: "#7092be" }}>
+           feel free to make a doodle or two while you're here! :)
         </div>
         <Icons />
     </div>
@@ -311,22 +309,11 @@ export function Icons(){
       </a>
       <a 
         href="mailto:sanya.garg@gmail.com" 
-        className="w-8 h-8 flex items-center justify-center hover:opacity-70 transition-opacity text-gray-600"
+        className="w-8 h-8 flex items-center justify-center hover:color transition-opacity text-gray-600"
         title="Email"
       >
         <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
           <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-        </svg>
-      </a>
-      <a 
-        href="/resume.pdf" 
-        target="_blank" 
-        rel="noopener noreferrer"
-        className="w-8 h-8 flex items-center justify-center hover:opacity-70 transition-opacity text-gray-600"
-        title="Resume"
-      >
-        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
         </svg>
       </a>
       <a 
