@@ -148,46 +148,7 @@ export function Ribbon({
 
         {/* Right side - Quick access and window controls */}
         <div className="flex items-center ml-auto">
-          {/* Quick Access Toolbar - hidden on Projects page */}
-          {activeTab !== "Projects" && activeTab !== "About Me" && (
-            <div className="flex items-center gap-0.5 px-1 border-r border-[#b8d0ec]">
-              <button
-                onClick={onSave}
-                className="w-5 h-5 flex items-center justify-center hover:bg-[#c4daf3] rounded"
-                title="Save (Ctrl+S)"
-              >
-                💾
-              </button>
-              <button
-                onClick={onUndo}
-                className="w-5 h-5 flex items-center justify-center hover:bg-[#c4daf3] rounded"
-                title="Undo (Ctrl+Z)"
-              >
-                ↩
-              </button>
-              <button
-                onClick={onRedo}
-                className="w-5 h-5 flex items-center justify-center hover:bg-[#c4daf3] rounded"
-                title="Redo (Ctrl+Y)"
-              >
-                ↪
-              </button>
-              <span className="text-[10px] text-gray-500 ml-1">▼</span>
-            </div>
-          )}
 
-          {/* Window Controls */}
-          <div className="flex items-center">
-            <button className="w-11 h-7 flex items-center justify-center hover:bg-[#c4daf3] text-gray-600">
-              ─
-            </button>
-            <button className="w-11 h-7 flex items-center justify-center hover:bg-[#c4daf3] text-gray-600">
-              □
-            </button>
-            <button className="w-11 h-7 flex items-center justify-center hover:bg-[#e81123] hover:text-white text-gray-600">
-              ✕
-            </button>
-          </div>
         </div>
       </div>
 
@@ -212,6 +173,39 @@ export function Ribbon({
             </div>
           </div>
           <GroupLabel>Clipboard</GroupLabel>
+        </div>
+
+        <GroupDivider />
+
+        {/* Edit Group */}
+        <div className="flex flex-col items-center h-full">
+          <div className="flex items-start gap-0.5 flex-1">
+            <button
+              onClick={onSave}
+              className="flex flex-col items-center justify-center w-11 h-14 hover:bg-[#e5e5e5] rounded-sm border border-transparent"
+              title="Save (Ctrl+S)"
+            >
+              <span className="text-xl">💾</span>
+              <span className="text-[9px]">Save</span>
+            </button>
+            <div className="flex flex-col gap-0.5">
+              <button
+                onClick={onUndo}
+                className="flex items-center gap-1 px-1 h-5 hover:bg-[#e5e5e5] rounded-sm text-[10px]"
+                title="Undo (Ctrl+Z)"
+              >
+                ↩ Undo
+              </button>
+              <button
+                onClick={onRedo}
+                className="flex items-center gap-1 px-1 h-5 hover:bg-[#e5e5e5] rounded-sm text-[10px]"
+                title="Redo (Ctrl+Y)"
+              >
+                ↪ Redo
+              </button>
+            </div>
+          </div>
+          <GroupLabel>Edit</GroupLabel>
         </div>
 
         <GroupDivider />
