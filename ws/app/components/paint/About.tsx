@@ -28,18 +28,32 @@ const workExperiences = [
 ];
 
 export function About() {
+  const scrollToArt = () => {
+    const artSection = document.getElementById('art-section');
+    if (artSection) {
+      artSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="flex-1  overflow-auto">
       <div className="max-w-7xl mx-auto px-8 py-20">
         <div className="flex items-start gap-30">
           <div className="flex-1 max-w-2xl">
-            
+
             <div className="flex items-center gap-4">
               <img src="/letter.png" alt="letter" className="w-18 h-15 mt-6 object-cover hover:-rotate-10 transition-all duration-100"/>
               <img src="/hello.png" alt="hello" className="w-51 h-30 object-cover"/>
             </div>
             <div className="text-gray-600 text-xl mb-10 mt-10 relative">
-              I'm a software engineer and recent graduate from Rice University currently based in the SF bay area. In addition to doodling in Microsoft Paint, I like to dabble in many forms of art, try the same drink at different coffee shops, and play pickleball and squash. Feel free to check out some of my art and other projects below!
+              I'm a software engineer and recent graduate from Rice University currently based in the SF bay area. In addition to doodling in Microsoft Paint, I like to dabble in many forms of art, try the same drink at different coffee shops, and play pickleball and squash. Feel free to check out some of {' '}
+              <span
+                onClick={scrollToArt}
+                className="text-[#948ab8] cursor-pointer hover:text-[#7092be] transition-colors"
+              >
+                my art and other projects below!
+              </span>
+              {' '}
             </div>
             <div className="mb-12">
               <h3 className="text-3xl font-bold mb-6" style={{ color: "#7092be" }}>
@@ -78,72 +92,49 @@ export function About() {
             <img
               src="/cloud.png"
               alt="Cloud overlay"
-              className="absolute -top-0 -left-5 w-40 h-20 object-contain hover:-translate-x-5"
+              className="absolute -top-0 -left-5 w-40 h-20 object-contain hover:-translate-x-5 transition-all duration-300"
             />
              <img
               src="/cloud2.png"
               alt="Cloud overlay"
-              className="absolute -bottom-0 -right-10 w-40 h-20 -rotate-5 object-contain hover:translate-x-5"
+              className="absolute -bottom-0 -right-10 w-40 h-20 -rotate-5 object-contain hover:translate-x-5 transition-all duration-300"
             />
           </div>
         </div>
       </div>
       
-      {/* <Art /> */}
+      <Art />
     </div>
   );
 }
 
+const hennaImgCount = 12;
+
+const hennaImages = Array.from(
+  { length: hennaImgCount },
+  (_, i) => `/art/mehendi/${i + 1}.jpg`
+);
+
 export function Art() {
   return (
-    <div className="bg-[#dce8f5] p-8 border-t-2 border-[#b8d0ec]">
+    <div id="art-section" className="bg-[#dce8f5] p-8 border-t-2 border-[#b8d0ec]">
       <div className="max-w-7xl mx-auto">
-        <div className="text-6xl font-bold mb-10 mt-12 text-gray-600">
-          my art
+        <div className="text-6xl font-bold mb-10 mt-12 text-[#948ab8]">
+          art by me!!
         </div>
-        <div className="grid grid-cols-3 gap-6">
-          <div>
-            <img 
-              src="/art1.jpg" 
-              alt="Art piece 1" 
-              className="w-full h-auto object-cover rounded border-2 border-gray-300"
-            />
-          </div>
-          <div>
-            <img 
-              src="/art2.jpg" 
-              alt="Art piece 2" 
-              className="w-full h-auto object-cover rounded border-2 border-gray-300"
-            />
-          </div>
-          <div>
-            <img 
-              src="/art3.jpg" 
-              alt="Art piece 3" 
-              className="w-full h-auto object-cover rounded border-2 border-gray-300"
-            />
-          </div>
-          <div>
-            <img 
-              src="/art4.jpg" 
-              alt="Art piece 4" 
-              className="w-full h-auto object-cover rounded border-2 border-gray-300"
-            />
-          </div>
-          <div>
-            <img 
-              src="/art5.jpg" 
-              alt="Art piece 5" 
-              className="w-full h-auto object-cover rounded border-2 border-gray-300"
-            />
-          </div>
-          <div>
-            <img 
-              src="/art6.jpg" 
-              alt="Art piece 6" 
-              className="w-full h-auto object-cover rounded border-2 border-gray-300"
-            />
-          </div>
+        <div className="text-gray-600 text-xl mb-10 mt-10">
+          a collection of my henna designs thanks to all of my hand models :)
+        </div>
+        <div className="columns-6 gap-4 space-y-4">
+          {hennaImages.map((imagePath, index) => (
+            <div key={index} className="break-inside-avoid mb-4">
+              <img
+                src={imagePath}
+                alt={`Image ${index + 1}`}
+                className="w-full h-auto object-cover rounded border-2 border-gray-300 hover:scale-105 hover:shadow-md transition-transform duration-300"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>
