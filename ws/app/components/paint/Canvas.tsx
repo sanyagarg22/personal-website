@@ -87,14 +87,14 @@ export function Canvas({
 
     canvas.width = canvasSize.width;
     canvas.height = canvasSize.height;
-
-    // Restore saved canvas
+    
     if ((!isInitialized && canvasSize.width > 0 && canvasSize.height > 0) || toClear) {
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
       ctx.imageSmoothingEnabled = false;
       setIsInitialized(true);
     }
+    // Restore saved canvas
     if (savedImageData && !toClear) {
       ctx.putImageData(savedImageData, 0, 0);
     } 
@@ -303,11 +303,22 @@ export function Home(){
     <div className="absolute top-1/4 left-1/16 pointer-events-none p-4">
 
     <div className="text-7xl font-bold pointer-events-none">
-        <img
-          src="/sanya_cursive.png"
-          alt="hello doodle"
-          className="w-120 h-40 object-cover -ml-8"
-        />
+        <div className="relative inline-block">
+          <img
+            src="/sanya_cursive.png"
+            alt="sanya garg"
+            className="w-120 h-40 object-cover ml-8"
+          />
+          <div
+            className="w-12 h-12 bg-cover bg-center absolute top-0 -right-16 bg-[url('/star.png')] hover:rotate-20 transition-all duration-300 pointer-events-auto"
+            style={{ backgroundImage: "url('/star.png')" }}
+          />
+          <img
+            src="/strawberry.png"
+            alt="strawberry"
+            className="w-11 h-12 object-cover absolute bottom-5 left-0  hover:-rotate-20 transition-all duration-300 pointer-events-auto -translate-x-1/2 translate-y-1/4"
+          />
+        </div>
       </div>
         <div className="text-gray-600 text-xl mt-2 pointer-events-none">
           welcome to my personal website inspired by the legacy microsoft paint app!

@@ -127,9 +127,12 @@ export function Projects() {
       <div className="max-w-6xl mx-auto px-8 py-20">
         {/* Header */}
         <div className="mb-16">
-          <h1 className="text-7xl font-bold mb-4" style={{ color: "#7092be" }}>
-            projects
-          </h1>
+        <div className="flex items-center gap-4">
+            <h1 className="text-7xl font-bold mb-4" style={{ color: "#7092be" }}>
+              projects
+            </h1>
+            <img src="/flowers.png" alt="letter" className="w-20 h-18 ml-4 -rotate-10 object-cover hover:-rotate-20 transition-all duration-100"/>
+          </div>
         </div>
 
         {/* Projects List */}

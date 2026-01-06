@@ -33,11 +33,15 @@ export function About() {
       <div className="max-w-7xl mx-auto px-8 py-20">
         <div className="flex items-start gap-30">
           <div className="flex-1 max-w-2xl">
-            <img src="/hello.png" alt="hello" className="w-50 h-30 object-cover"/>
-            <div className="text-gray-600 text-xl mb-10 mt-10">
+            
+            <div className="flex items-center gap-4">
+              <img src="/letter.png" alt="letter" className="w-18 h-15 mt-6 object-cover hover:-rotate-10 transition-all duration-100"/>
+              <img src="/hello.png" alt="hello" className="w-51 h-30 object-cover"/>
+            </div>
+            <div className="text-gray-600 text-xl mb-10 mt-10 relative">
               I'm a software engineer and recent graduate from Rice University currently based in the SF bay area. In addition to doodling in Microsoft Paint, I like to dabble in many forms of art, try the same drink at different coffee shops, and play pickleball and squash. Feel free to check out some of my art and other projects below!
             </div>
-            
+
             <div className="mb-12">
               <h3 className="text-3xl font-bold mb-6" style={{ color: "#7092be" }}>
                 work experience
@@ -65,12 +69,22 @@ export function About() {
               </div>
             </div>
           </div>
-          <div className="flex-shrink-0">
-            <img 
-              src="/pfp.jpg" 
-              alt="Profile Picture" 
+          <div className="flex-shrink-0 relative">
+            <img
+              src="/pfp.jpg"
+              alt="Profile Picture"
               className="w-80 h-90 object-cover rounded-[50%]"
               style={{ borderRadius: "50% 50% 50% 50% / 50% 50% 50% 50%" }}
+            />
+            <img
+              src="/cloud.png"
+              alt="Cloud overlay"
+              className="absolute -top-0 -left-5 w-40 h-20 object-contain hover:-translate-x-5"
+            />
+             <img
+              src="/cloud2.png"
+              alt="Cloud overlay"
+              className="absolute -bottom-0 -right-10 w-40 h-20 -rotate-5 object-contain hover:translate-x-5"
             />
           </div>
         </div>
