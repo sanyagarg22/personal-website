@@ -115,6 +115,13 @@ const hennaImages = Array.from(
   (_, i) => `/art/mehendi/${i + 1}.jpg`
 );
 
+const graphicImgCount = 6;
+
+const graphicImages = Array.from(
+  { length: graphicImgCount },
+  (_, i) => `/art/graphic/${i + 1}.PNG`
+);
+
 export function Art() {
   return (
     <div id="art-section" className="bg-[#dce8f5] p-8 border-t-2 border-[#b8d0ec]">
@@ -127,6 +134,21 @@ export function Art() {
         </div>
         <div className="columns-6 gap-4 space-y-4">
           {hennaImages.map((imagePath, index) => (
+            <div key={index} className="break-inside-avoid mb-4">
+              <img
+                src={imagePath}
+                alt={`Image ${index + 1}`}
+                className="w-full h-auto object-cover rounded border-2 border-gray-300 hover:scale-105 hover:shadow-md transition-transform duration-300"
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="text-gray-600 text-xl mb-10 mt-10">
+          some graphic art made on adobe illustrator!
+        </div>
+        <div className="columns-6 gap-4 space-y-4">
+          {graphicImages.map((imagePath, index) => (
             <div key={index} className="break-inside-avoid mb-4">
               <img
                 src={imagePath}
