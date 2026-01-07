@@ -128,10 +128,12 @@ export function PaintApp() {
         activeTab={activeTab}
         brushSize={brushSize}
         toClear={toClear}
+        zoom={zoom}
         onColorPick={handleColorPick}
         onSizeChange={handleCanvasSizeChange}
         onCursorMove={handleCursorPositionChange}
         onClearEnd={endClear}
+        onZoomChange={setZoom}
       />
       
       {/* Status Bar */}

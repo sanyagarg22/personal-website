@@ -12,10 +12,12 @@ interface CanvasProps {
   brushSize: number;
   activeTab: string;
   toClear: boolean;
+  zoom: number;
   onColorPick?: (color: string) => void;
   onSizeChange?: (width: number, height: number) => void;
   onCursorMove?: (x: number, y: number) => void;
   onClearEnd?: () => void;
+  onZoomChange?: (zoom: number) => void;
 }
 
 export function Canvas({ 
@@ -24,11 +26,13 @@ export function Canvas({
   activeTool, 
   brushSize,
   toClear,
+  zoom,
   onColorPick,
   onSizeChange,
   onCursorMove,
   activeTab,
   onClearEnd,
+  onZoomChange,
 }: CanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -38,32 +42,42 @@ export function Canvas({
   const [currentColor, setCurrentColor] = useState(primaryColor);
   const [isInitialized, setIsInitialized] = useState(false);
   const padding = 32;
+  
+  const zoomLevel = zoom / 100;
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
+    let timeoutId: NodeJS.Timeout;
+    
     const updateSize = () => {
-      const width = container.clientWidth - padding;
-      const height = container.clientHeight - padding;
-      
-      if (width > 0 && height > 0) {
-        // note: we are calling a state setter with a function, so it automatically passes in prev value 
-        setCanvasSize(
-          (prev) => {
-            if (prev.width === width && prev.height === height) {
-              return prev;
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        const width = container.offsetWidth - padding;
+        const height = container.offsetHeight - padding;
+        
+        if (width > 0 && height > 0) {
+          setCanvasSize(
+            (prev) => {
+              // only update canvas size if difference is more than 5
+              if (Math.abs(prev.width - width) < 5 && Math.abs(prev.height - height) < 5) {
+                return prev;
+              }
+              return { width, height };
             }
-            return { width, height };
-          }
-        );
-      }
+          );
+        }
+      }, 50); // wait 50ms before executing function again
     };
 
     updateSize();
     const resizeObserver = new ResizeObserver(updateSize);
     resizeObserver.observe(container);
-    return () => resizeObserver.disconnect();
+    return () => {
+      clearTimeout(timeoutId);
+      resizeObserver.disconnect();
+    };
   }, [activeTab]);
 
   // Notify PaintApp if the canvas size changes
@@ -108,11 +122,12 @@ export function Canvas({
     if (!canvas) return { x: 0, y: 0 };
     
     const rect = canvas.getBoundingClientRect();
+    // Account for zoom level when calculating coordinates
     return {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+      x: (e.clientX - rect.left) / zoomLevel,
+      y: (e.clientY - rect.top) / zoomLevel,
     };
-  }, []);
+  }, [zoomLevel]);
 
   const getPixelColor = useCallback((x: number, y: number): string | null => {
     const canvas = canvasRef.current;
@@ -223,6 +238,15 @@ export function Canvas({
     const color = e.button === 2 ? secondaryColor : primaryColor;
     setCurrentColor(color);
 
+    if (activeTool === "brush") {
+      if (e.button === 2) { // right click = zoom out
+        onZoomChange?.(Math.max(10, zoom - 50));
+      } else { // left click = zoom in
+        onZoomChange?.(Math.min(500, zoom + 50));
+      }
+      return;
+    }
+
     if (activeTool === "picker") {
       let pickedColor: string | null = getPixelColor(x, y);
       if (!pickedColor) return;
@@ -235,8 +259,7 @@ export function Canvas({
       return;
     }
 
-    if (activeTool === "pencil" || activeTool === "brush" || activeTool === "eraser") {
-      // TODO: make the pencil and brush do different things
+    if (activeTool === "pencil" ||  activeTool === "eraser") {
       setIsDrawing(true);
       setLastPos({ x, y });
       draw(x, y, color);
@@ -266,18 +289,36 @@ export function Canvas({
   const showCanvas = activeTab === "Home" || activeTab === "Free Paint";
   const showProjects = activeTab === "Projects";
   const showAboutMe = activeTab === "About Me";
+  
+  // Determine cursor style based on active tool
+  const getCursorStyle = () => {
+    if (activeTool === "brush") return "zoom-in";
+    if (activeTool === "picker") return "crosshair";
+    return "crosshair";
+  };
 
   return (
     <>
-      {/* Canvas - always mounted to preserve drawing, but hidden when not needed */}
       <div 
         ref={containerRef} 
-        className={`flex-1 bg-[#c0c0c0] p-4 overflow-hidden ${showCanvas ? '' : 'hidden'}`}
+        className={`flex-1 bg-[#c0c0c0] p-4 ${showCanvas ? '' : 'hidden'} relative`}
+        style={{ 
+          overflow: zoomLevel > 1 ? 'auto' : 'hidden'
+        }}
       >
-        <div className="relative inline-block">
+        <div 
+          className="relative inline-block transition-transform duration-200 origin-top-left will-change-transform"
+          style={{
+            transform: `scale(${zoomLevel})`,
+            transformOrigin: 'top left',
+          }}
+        >
           <canvas
             ref={canvasRef}
-            className="bg-white cursor-crosshair shadow-md"
+            className="bg-white shadow-md block"
+            style={{
+              cursor: getCursorStyle(),
+            }}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
@@ -288,11 +329,7 @@ export function Canvas({
           {activeTab === "Free Paint" && <FreePaint />}
         </div>
       </div>
-
-      {/* Projects page - shown when Projects tab is active */}
       {showProjects && <Projects />}
-
-      {/* About Me page - shown when About Me tab is active */}
       {showAboutMe && <About />}
     </>
   );

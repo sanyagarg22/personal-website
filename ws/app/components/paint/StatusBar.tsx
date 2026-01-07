@@ -39,6 +39,7 @@ export function StatusBar({
           <button 
             onClick={() => onZoomChange?.(Math.max(10, zoom - 10))}
             className="w-5 h-5 flex items-center justify-center hover:bg-gray-200 rounded text-gray-500"
+            title="Zoom out"
           >
             −
           </button>
@@ -50,16 +51,29 @@ export function StatusBar({
             value={zoom}
             onChange={(e) => onZoomChange?.(Number(e.target.value))}
             className="w-20 h-1 accent-gray-400"
+            title={`Zoom: ${zoom}%`}
           />
           
           <button 
             onClick={() => onZoomChange?.(Math.min(500, zoom + 10))}
             className="w-5 h-5 flex items-center justify-center hover:bg-gray-200 rounded text-gray-500"
+            title="Zoom in"
           >
             +
           </button>
 
-          <span className="w-10 text-right">{zoom}%</span>
+          <button
+            onClick={() => onZoomChange?.(100)}
+            className={`px-2 h-5 flex items-center justify-center rounded text-[10px] transition-colors ${
+              zoom !== 100 
+                ? 'hover:bg-gray-200 text-gray-600 hover:text-blue-600' 
+                : 'text-gray-400 cursor-default'
+            }`}
+            disabled={zoom === 100}
+            title="Reset zoom"
+          >
+            {zoom}%
+          </button>
         </div>
       </div>
     </div>
