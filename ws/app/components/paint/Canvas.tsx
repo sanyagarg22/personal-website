@@ -41,9 +41,22 @@ export function Canvas({
   const [lastPos, setLastPos] = useState<{ x: number; y: number } | null>(null);
   const [currentColor, setCurrentColor] = useState(primaryColor);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [textInput, setTextInput] = useState<{ x: number; y: number; text: string } | null>(null);
+  const [fontSize, setFontSize] = useState(16);
+  const textInputRef = useRef<HTMLInputElement>(null);
   const padding = 32;
   
   const zoomLevel = zoom / 100;
+
+  // Focus text input when it appears
+  useEffect(() => {
+    if (textInput && textInputRef.current) {
+      //  setTimeout makes sure focus happens after the click finishes
+      setTimeout(() => {
+        textInputRef.current?.focus();
+      }, 0);
+    }
+  }, [textInput]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -233,6 +246,26 @@ export function Canvas({
     ctx.putImageData(imageData, 0, 0);
   }, []);
 
+  const renderText = useCallback((x: number, y: number, text: string, color: string) => {
+    const canvas = canvasRef.current;
+    if (!canvas || !text) return;
+    
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    ctx.fillStyle = color;
+    ctx.font = `${fontSize}px Arial`;
+    ctx.textBaseline = "top";
+    ctx.fillText(text, x, y+6);
+  }, [fontSize]);
+
+  const handleTextComplete = useCallback(() => {
+    if (textInput && textInput.text.trim()) {
+      renderText(textInput.x, textInput.y, textInput.text, currentColor);
+    }
+    setTextInput(null);
+  }, [textInput, currentColor, renderText]);
+
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const { x, y } = getCanvasCoords(e);
     const color = e.button === 2 ? secondaryColor : primaryColor;
@@ -256,6 +289,14 @@ export function Canvas({
 
     if (activeTool === "fill") {
       fill(x, y, color);
+      return;
+    }
+
+    if (activeTool === "text") {
+      if (textInput) {
+        handleTextComplete();
+      }
+      setTextInput({ x, y, text: "" });
       return;
     }
 
@@ -325,6 +366,30 @@ export function Canvas({
             onMouseLeave={handleMouseUp}
             onContextMenu={handleContextMenu}
           />
+          {textInput && (
+            <input
+              ref={textInputRef}
+              type="text"
+              value={textInput.text}
+              onChange={(e) => setTextInput({ ...textInput, text: e.target.value })}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleTextComplete();
+                } else if (e.key === "Escape") {
+                  setTextInput(null);
+                }
+              }}
+              className="absolute border-none outline-none bg-transparent"
+              style={{
+                left: `${textInput.x}px`,
+                top: `${textInput.y}px`,
+                fontSize: `${fontSize}px`,
+                fontFamily: "Arial",
+                color: currentColor,
+                width: `${Math.max(2, textInput.text.length * (fontSize * 0.6) + 4)}px`,
+              }}
+            />
+          )}
           {activeTab === "Home" && <Home />}
           {activeTab === "Free Paint" && <FreePaint />}
         </div>
