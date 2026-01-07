@@ -7,6 +7,10 @@ export type Tool =
   | "picker" 
   | "line" 
   | "rectangle" 
-  | "ellipse"
-  | "select";
+  | "circle"
+  | "select"
+  | "arc"
+  | "triangle"
+  | "diamond"
+  ;
 

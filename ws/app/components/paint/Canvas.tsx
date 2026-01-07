@@ -43,6 +43,9 @@ export function Canvas({
   const [isInitialized, setIsInitialized] = useState(false);
   const [textInput, setTextInput] = useState<{ x: number; y: number; text: string } | null>(null);
   const [fontSize, setFontSize] = useState(16);
+  const [isDrawingShape, setIsDrawingShape] = useState(false);
+  const [shapeStart, setShapeStart] = useState<{ x: number; y: number } | null>(null);
+  const [savedImageData, setSavedImageData] = useState<ImageData | null>(null);
   const textInputRef = useRef<HTMLInputElement>(null);
   const padding = 32;
   
@@ -119,6 +122,7 @@ export function Canvas({
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
       ctx.imageSmoothingEnabled = false;
+      setTextInput(null);
       setIsInitialized(true);
     }
     // Restore saved canvas
@@ -242,9 +246,59 @@ export function Canvas({
         }
       }
     }
-
     ctx.putImageData(imageData, 0, 0);
   }, []);
+
+  const drawShape = useCallback((startX: number, startY: number, endX: number, endY: number, color: string, isPreview: boolean = false) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // if preview, restore the saved canvas state first
+    if (isPreview && savedImageData) {
+      ctx.putImageData(savedImageData, 0, 0);
+    }
+    
+    ctx.strokeStyle = color;
+    ctx.lineWidth = brushSize;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    
+    if (activeTool === "circle") {
+      const radius = Math.sqrt((endX - startX) ** 2 + (endY - startY) ** 2);
+      ctx.arc(startX, startY, radius, 0, Math.PI * 2);
+    }
+    else if (activeTool === "rectangle") {
+      ctx.rect(startX, startY, endX - startX, endY - startY);
+    }
+    else if (activeTool === "line") {
+      ctx.moveTo(startX, startY);
+      ctx.lineTo(endX, endY);
+    }
+    else if (activeTool === "arc") {
+      const controlX = (startX + endX) / 2 - (endY - startY) * 0.3;
+      const controlY = (startY + endY) / 2 + (endX - startX) * 0.3;
+      ctx.moveTo(startX, startY);
+      ctx.quadraticCurveTo(controlX, controlY, endX, endY);
+    }
+    else if (activeTool === "triangle") {
+      ctx.moveTo((startX + endX) / 2, startY); 
+      ctx.lineTo(endX, endY); 
+      ctx.lineTo(startX, endY); 
+      ctx.closePath();
+    }
+    else if (activeTool === "diamond") {
+      ctx.moveTo((startX + endX) / 2, startY);
+      ctx.lineTo(endX, (startY + endY) / 2);
+      ctx.lineTo((startX + endX) / 2, endY); 
+      ctx.lineTo(startX, (startY + endY) / 2); 
+      ctx.closePath();
+    }
+    ctx.stroke();
+  }, [brushSize, savedImageData, activeTool]);
+
 
   const renderText = useCallback((x: number, y: number, text: string, color: string) => {
     const canvas = canvasRef.current;
@@ -307,17 +361,52 @@ export function Canvas({
       return;
     }
 
+    if (activeTool === "circle" || activeTool === "rectangle" || activeTool === "line" || 
+        activeTool === "arc" || activeTool === "triangle" || activeTool === "diamond") {
+      setIsDrawingShape(true);
+      setShapeStart({ x, y });
+      // Save current canvas state before starting shape preview
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          setSavedImageData(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        }
+      }
+      return;
+    }
+
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const { x, y } = getCanvasCoords(e);
     onCursorMove?.(Math.round(x), Math.round(y));
-    if (!isDrawing) return;
-    draw(x, y, currentColor);
-    setLastPos({ x, y });
+    if (isDrawingShape && shapeStart) {
+      // draw shape preview
+      drawShape(shapeStart.x, shapeStart.y, x, y, currentColor, true);
+    }
+    else if (isDrawing) {
+      draw(x, y, currentColor);
+      setLastPos({ x, y });
+    }
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const { x, y } = getCanvasCoords(e);
+    if (isDrawingShape && shapeStart) {
+      // restore the canvas before drawing the final shape
+      const canvas = canvasRef.current;
+      if (canvas && savedImageData) {
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.putImageData(savedImageData, 0, 0);
+        }
+      }
+      drawShape(shapeStart.x, shapeStart.y, x, y, currentColor, false);
+      setSavedImageData(null);
+      setShapeStart(null);
+    }
+    setIsDrawingShape(false);
     setIsDrawing(false);
     setLastPos(null);
   };

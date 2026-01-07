@@ -255,19 +255,14 @@ export function Ribbon({
         {/* Shapes Group */}
         <div className="flex flex-col items-center h-full">
           <div className="flex gap-1 flex-1">
-            <div className="grid grid-cols-4 gap-0.5 content-start">
+            <div className="grid grid-cols-3 gap-0.5 content-start">
               <ToolButton tool="line" icon="╱" label="Line" />
-              <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">⌒</button>
-              <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">⬭</button>
+              <ToolButton tool="arc" icon="⌒" label="Arc" />
               <ToolButton tool="rectangle" icon="▭" label="Rectangle" />
-              <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">△</button>
-              <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">▷</button>
-              <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">◇</button>
-              <ToolButton tool="ellipse" icon="⬭" label="Ellipse" />
-              {/* <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">⭐</button>
-              <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">💬</button>
-              <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-sm">❤️</button>
-              <button className="w-7 h-7 flex items-center justify-center hover:bg-[#e5e5e5] rounded-sm text-[8px]">▼</button> */}
+              <ToolButton tool="triangle" icon="△" label="Triangle" />
+              {/* <ToolButton tool="arrow" icon="▷" label="Arrow" /> */}
+              <ToolButton tool="diamond" icon="◇" label="Diamond" />
+              <ToolButton tool="circle" icon="⬭" label="Ellipse" />
             </div>
             <div className="flex flex-col gap-0.5">
               <button className="flex items-center gap-1 px-1 h-6 hover:bg-[#e5e5e5] rounded-sm text-[10px] border border-gray-300">
