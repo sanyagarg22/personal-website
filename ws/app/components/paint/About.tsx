@@ -139,7 +139,7 @@ export function Art() {
           art by me!!
         </div>
         <div className="text-gray-600 text-xl mb-10 mt-10">
-          a collection of my henna designs thanks to my generous hand models :)
+          a collection of henna designs thanks to some generous hand models :)
         </div>
         <div className="columns-6 gap-4 space-y-4">
           {hennaImages.map((imagePath, index) => (
