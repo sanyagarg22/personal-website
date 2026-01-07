@@ -110,7 +110,7 @@ export function About() {
 
 const hennaImgCount = 12;
 const graphicImgCount = 6;
-const paintingImgCount = 11;
+const paintingImgCount = 12;
 const pourPaintingImgCount = 12;
 
 
