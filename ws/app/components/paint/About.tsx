@@ -109,17 +109,26 @@ export function About() {
 }
 
 const hennaImgCount = 12;
+const graphicImgCount = 6;
+const paintingImgCount = 11;
+const pourPaintingImgCount = 12;
+
 
 const hennaImages = Array.from(
   { length: hennaImgCount },
   (_, i) => `/art/mehendi/${i + 1}.jpg`
 );
-
-const graphicImgCount = 6;
-
 const graphicImages = Array.from(
   { length: graphicImgCount },
   (_, i) => `/art/graphic/${i + 1}.PNG`
+);
+const paintingImages = Array.from(
+  { length: paintingImgCount },
+  (_, i) => `/art/paintings/${i + 1}.jpg`
+);
+const pourPaintingImages = Array.from(
+  { length: pourPaintingImgCount },
+  (_, i) => `/art/pour/${i + 1}.jpg`
 );
 
 export function Art() {
@@ -130,10 +139,26 @@ export function Art() {
           art by me!!
         </div>
         <div className="text-gray-600 text-xl mb-10 mt-10">
-          a collection of my henna designs thanks to all of my hand models :)
+          a collection of my henna designs thanks to my generous hand models :)
         </div>
         <div className="columns-6 gap-4 space-y-4">
           {hennaImages.map((imagePath, index) => (
+            <div key={index} className="break-inside-avoid mb-4">
+              <img
+                src={imagePath}
+                alt={`Image ${index + 1}`}
+                className="w-full h-auto object-cover rounded border-2 border-gray-300 hover:scale-105 hover:shadow-md transition-transform duration-300"
+              />
+            </div>
+          ))}
+        </div>
+
+
+        <div className="text-gray-600 text-xl mb-10 mt-10">
+          acrylic & watercolor paintings over the years...
+        </div>
+        <div className="columns-6 gap-4 space-y-4">
+          {paintingImages.map((imagePath, index) => (
             <div key={index} className="break-inside-avoid mb-4">
               <img
                 src={imagePath}
@@ -158,8 +183,25 @@ export function Art() {
             </div>
           ))}
         </div>
+
+        <div className="text-gray-600 text-xl mb-10 mt-10">
+          pour paintings - a special art technique where you mix, pour, and tilt thinned paint on a canvas
+        </div>
+        <div className="columns-6 gap-4 space-y-4">
+          {pourPaintingImages.map((imagePath, index) => (
+            <div key={index} className="break-inside-avoid mb-4">
+              <img
+                src={imagePath}
+                alt={`Image ${index + 1}`}
+                className="w-full h-auto object-cover rounded border-2 border-gray-300 hover:scale-105 hover:shadow-md transition-transform duration-300"
+              />
+            </div>
+          ))}
+        </div>
+
       </div>
     </div>
+
   );
 }
 
