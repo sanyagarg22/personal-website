@@ -408,7 +408,7 @@ export function Ribbon({
               <ToolButton tool="triangle" icon="△" label="Triangle" />
               {/* <ToolButton tool="arrow" icon="▷" label="Arrow" /> */}
               <ToolButton tool="diamond" icon="◇" label="Diamond" />
-              <ToolButton tool="circle" icon="⬭" label="Ellipse" />
+              <ToolButton tool="circle" icon="○" label="Curcle" />
             </div>
             <div className="flex flex-col gap-0.5">
               {/* Outline Dropdown */}
