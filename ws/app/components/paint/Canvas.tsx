@@ -398,27 +398,41 @@ export function Canvas({
     ctx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
   }, []);
 
-  const copySelection = useCallback(() => {
-    if (!selectionStart || !selectionEnd) return;
-    
+  const processSelectionImageData = useCallback((): ImageData | null => {
+    if (!selectionStart || !selectionEnd) return null;
+
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return null;
     
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    if (!ctx) return null;
     
     const x = Math.min(selectionStart.x, selectionEnd.x);
     const y = Math.min(selectionStart.y, selectionEnd.y);
     const width = Math.abs(selectionEnd.x - selectionStart.x);
     const height = Math.abs(selectionEnd.y - selectionStart.y);
     
-    if (width > 0 && height > 0) {
-      const imageData = ctx.getImageData(x, y, width, height);
+    if (width <= 0 || height <= 0) return null;
+    
+    const imageData = ctx.getImageData(x, y, width, height);
+    const data = imageData.data;
+    const whiteThreshold = 250; 
+    
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i] >= whiteThreshold && data[i + 1] >= whiteThreshold && data[i + 2] >= whiteThreshold) {
+        data[i + 3] = 0; 
+      }
+    }
+    return imageData;
+  }, [selectionStart, selectionEnd]);
+
+  const copySelection = useCallback(() => {
+    const imageData = processSelectionImageData();
+    if (imageData) {
       setCopiedImageData(imageData);
     }
-
-   clearOverlayCanvas();
-  }, [selectionStart, selectionEnd]);
+    clearOverlayCanvas();
+  }, [processSelectionImageData, clearOverlayCanvas]);
 
   const cutSelection = useCallback(() => {
     if (!selectionStart || !selectionEnd) return;
@@ -429,18 +443,17 @@ export function Canvas({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     
-    const x = Math.min(selectionStart.x, selectionEnd.x);
-    const y = Math.min(selectionStart.y, selectionEnd.y);
-    const width = Math.abs(selectionEnd.x - selectionStart.x);
-    const height = Math.abs(selectionEnd.y - selectionStart.y);
-    
-    if (width > 0 && height > 0) {
-      const imageData = ctx.getImageData(x, y, width, height);
+    const imageData = processSelectionImageData();
+    if (imageData) {
       setCopiedImageData(imageData);
+      const x = Math.min(selectionStart.x, selectionEnd.x);
+      const y = Math.min(selectionStart.y, selectionEnd.y);
+      const width = Math.abs(selectionEnd.x - selectionStart.x);
+      const height = Math.abs(selectionEnd.y - selectionStart.y);
       ctx.clearRect(x, y, width, height);
     }
     clearOverlayCanvas();
-  }, [selectionStart, selectionEnd]);
+  }, [selectionStart, selectionEnd, processSelectionImageData, clearOverlayCanvas]);
 
   const pasteSelection = useCallback(() => {
     if (!copiedImageData) return;
@@ -454,7 +467,15 @@ export function Canvas({
     const pasteX = selectionStart?.x || 10;
     const pasteY = selectionStart?.y || 10;
     
-    ctx.putImageData(copiedImageData, pasteX, pasteY);
+    // ensures that transparent pixels don't overwrite the current canvas
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = copiedImageData.width;
+    tempCanvas.height = copiedImageData.height;
+    const tempCtx = tempCanvas.getContext("2d");
+    if (tempCtx) {
+      tempCtx.putImageData(copiedImageData, 0, 0);
+      ctx.drawImage(tempCanvas, pasteX, pasteY);
+    }
     
     setSelectionStart({ x: pasteX, y: pasteY });
     setSelectionEnd({ 
