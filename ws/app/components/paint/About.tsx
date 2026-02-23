@@ -37,15 +37,15 @@ export function About() {
 
   return (
     <div className="flex-1  overflow-auto">
-      <div className="max-w-7xl mx-auto px-8 py-20">
-        <div className="flex items-start gap-30">
+      <div className="max-w-7xl mx-auto px-4 py-8 md:px-8 md:py-20">
+        <div className="flex flex-col md:flex-row items-start gap-8 md:gap-30">
           <div className="flex-1 max-w-2xl">
 
             <div className="flex items-center gap-4">
-              <img src="/icons/letter.png" alt="letter" className="w-18 h-15 mt-6 object-cover hover:-rotate-10 transition-all duration-100"/>
-              <img src="/icons/hello.png" alt="hello" className="w-51 h-30 object-cover"/>
+              <img src="/icons/letter.png" alt="letter" className="w-14 h-12 mt-3 md:w-18 md:h-15 md:mt-6 object-cover hover:-rotate-10 transition-all duration-100"/>
+              <img src="/icons/hello.png" alt="hello" className="w-36 h-20 md:w-51 md:h-30 object-cover"/>
             </div>
-            <div className="text-gray-600 text-xl mb-10 mt-10 relative">
+            <div className="text-gray-600 text-base md:text-xl mb-6 md:mb-10 mt-6 md:mt-10 relative">
               I'm a software engineer and recent graduate from Rice University currently based in the SF bay area. In addition to doodling in Microsoft Paint, I like to dabble in many forms of art, try the same drink at different coffee shops, and play pickleball and squash. Feel free to check out some of {' '}
               <span
                 onClick={scrollToArt}
@@ -56,25 +56,25 @@ export function About() {
               {' '}
             </div>
             <div className="mb-12">
-              <h3 className="text-3xl font-bold mb-6" style={{ color: "#7092be" }}>
+              <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6" style={{ color: "#7092be" }}>
                 work experience
               </h3>
               <div className="flex flex-col gap-4">
                 {workExperiences.map((experience, index) => (
                   <div 
                     key={index}
-                    className="bg-white rounded-lg border-2 border-[#948ab8] p-5 shadow-sm hover:shadow-md hover:border-[#7092be] hover:translate-x-2 transition-all"
+                    className="bg-white rounded-lg border-2 border-[#948ab8] p-4 md:p-5 shadow-sm hover:shadow-md hover:border-[#7092be] md:hover:translate-x-2 transition-all"
                   >
                     <div className="flex items-start justify-between mb-2">
                       <div>
-                        <h4 className="text-lg font-bold text-gray-800">{experience.role}</h4>
+                        <h4 className="text-base md:text-lg font-bold text-gray-800">{experience.role}</h4>
                         <p className="text-[#948ab8] font-medium">{experience.company}</p>
                       </div>
-                      <span className="text-sm text-gray-500 whitespace-nowrap ml-4">
+                      <span className="text-xs md:text-sm text-gray-500 whitespace-nowrap ml-4">
                         {experience.period}
                       </span>
                     </div>
-                    <p className="text-gray-600 text-sm mt-2">
+                    <p className="text-gray-600 text-xs md:text-sm mt-2">
                       {experience.description}
                     </p>
                   </div>
@@ -82,22 +82,22 @@ export function About() {
               </div>
             </div>
           </div>
-          <div className="flex-shrink-0 relative">
+          <div className="hidden md:block md:flex-shrink-0 relative">
             <img
               src="/pfp.jpg"
               alt="Profile Picture"
-              className="w-80 h-90 object-cover rounded-[50%]"
+              className="w-52 h-60 md:w-80 md:h-90 object-cover rounded-[50%]"
               style={{ borderRadius: "50% 50% 50% 50% / 50% 50% 50% 50%" }}
             />
             <img
               src="/icons/cloud.png"
               alt="Cloud overlay"
-              className="absolute -top-0 -left-5 w-40 h-20 object-contain hover:-translate-x-5 transition-all duration-300"
+              className="absolute -top-0 -left-3 md:-left-5 w-24 h-12 md:w-40 md:h-20 object-contain hover:-translate-x-5 transition-all duration-300"
             />
              <img
               src="/icons/cloud2.png"
               alt="Cloud overlay"
-              className="absolute -bottom-0 -right-10 w-40 h-20 -rotate-5 object-contain hover:translate-x-5 transition-all duration-300"
+              className="absolute -bottom-0 -right-4 md:-right-10 w-24 h-12 md:w-40 md:h-20 -rotate-5 object-contain hover:translate-x-5 transition-all duration-300"
             />
           </div>
         </div>
@@ -133,15 +133,15 @@ const pourPaintingImages = Array.from(
 
 export function Art() {
   return (
-    <div id="art-section" className="bg-[#dce8f5] p-8 border-t-2 border-[#b8d0ec]">
+    <div id="art-section" className="bg-[#dce8f5] p-4 md:p-8 border-t-2 border-[#b8d0ec]">
       <div className="max-w-7xl mx-auto">
-        <div className="text-6xl font-bold mb-10 mt-12 text-[#948ab8]">
+        <div className="text-3xl md:text-6xl font-bold mb-6 md:mb-10 mt-8 md:mt-12 text-[#948ab8]">
           art by me!!
         </div>
-        <div className="text-gray-600 text-xl mb-10 mt-10">
+        <div className="text-gray-600 text-base md:text-xl mb-6 md:mb-10 mt-6 md:mt-10">
           a collection of henna designs thanks to some generous hand models :)
         </div>
-        <div className="columns-6 gap-4 space-y-4">
+        <div className="columns-2 md:columns-4 lg:columns-6 gap-3 md:gap-4 space-y-3 md:space-y-4">
           {hennaImages.map((imagePath, index) => (
             <div key={index} className="break-inside-avoid mb-4">
               <img
@@ -154,10 +154,10 @@ export function Art() {
         </div>
 
 
-        <div className="text-gray-600 text-xl mb-10 mt-10">
+        <div className="text-gray-600 text-base md:text-xl mb-6 md:mb-10 mt-6 md:mt-10">
           acrylic & watercolor paintings over the years...
         </div>
-        <div className="columns-6 gap-4 space-y-4">
+        <div className="columns-2 md:columns-4 lg:columns-6 gap-3 md:gap-4 space-y-3 md:space-y-4">
           {paintingImages.map((imagePath, index) => (
             <div key={index} className="break-inside-avoid mb-4">
               <img
@@ -169,10 +169,10 @@ export function Art() {
           ))}
         </div>
 
-        <div className="text-gray-600 text-xl mb-10 mt-10">
+        <div className="text-gray-600 text-base md:text-xl mb-6 md:mb-10 mt-6 md:mt-10">
           some graphic art made on adobe illustrator!
         </div>
-        <div className="columns-6 gap-4 space-y-4">
+        <div className="columns-2 md:columns-4 lg:columns-6 gap-3 md:gap-4 space-y-3 md:space-y-4">
           {graphicImages.map((imagePath, index) => (
             <div key={index} className="break-inside-avoid mb-4">
               <img
@@ -184,10 +184,10 @@ export function Art() {
           ))}
         </div>
 
-        <div className="text-gray-600 text-xl mb-10 mt-10">
+        <div className="text-gray-600 text-base md:text-xl mb-6 md:mb-10 mt-6 md:mt-10">
           pour paintings - a special art technique where you mix, pour, and tilt thinned paint on a canvas
         </div>
-        <div className="columns-6 gap-4 space-y-4">
+        <div className="columns-2 md:columns-4 lg:columns-6 gap-3 md:gap-4 space-y-3 md:space-y-4">
           {pourPaintingImages.map((imagePath, index) => (
             <div key={index} className="break-inside-avoid mb-4">
               <img

@@ -255,11 +255,11 @@ export function Ribbon({
 
   return (
     <div className="bg-[#f5f6f7] border-b border-[#d0d0d0]">
-      <div className="flex items-end bg-[#dce8f5] border-b-2 border-[#b8d0ec] px-4 pt-3">
-        <div className="flex items-end gap-4">
+      <div className="flex items-end bg-[#dce8f5] border-b-2 border-[#b8d0ec] px-2 pt-2 md:px-4 md:pt-3">
+        <div className="flex items-end gap-2 md:gap-4 w-full min-w-0">
           <button 
             onClick={() => onTabChange("Home")}
-            className="px-4 py-2 text-md font-semibold text-gray-600 rounded-t transition-colors flex items-center gap-2 mb-0"
+            className="px-3 py-2 text-sm md:text-md font-semibold text-gray-600 rounded-t transition-colors flex items-center gap-2 mb-0 shrink-0 touch-manipulation"
           >
             <img
               src="/icons/sg2.png"
@@ -268,10 +268,10 @@ export function Ribbon({
             />
           </button>
           
-          <nav className="flex items-end gap-0.5">
+          <nav className="flex items-end gap-0.5 overflow-x-auto whitespace-nowrap w-full min-w-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             <button
               onClick={() => onTabChange("Home")}
-              className={`px-6 py-2.5 text-sm font-medium rounded-t-lg transition-all relative ${
+              className={`px-3 md:px-6 py-2 md:py-2.5 text-xs md:text-sm font-medium rounded-t-lg transition-all relative shrink-0 touch-manipulation ${
                 activeTab === "Home"
                   ? "bg-[#f5f6f7] text-gray-600 border-x border-t border-[#d0d0d0] -mb-px z-10 shadow-sm"
                   : "text-gray-600 hover:bg-[#c4daf3] hover:text-gray-600 bg-[#dce8f5]"
@@ -281,7 +281,7 @@ export function Ribbon({
             </button>
             <button 
               onClick={() => onTabChange("About Me")}
-              className={`px-6 py-2.5 text-sm font-medium rounded-t-lg transition-all relative ${
+              className={`px-3 md:px-6 py-2 md:py-2.5 text-xs md:text-sm font-medium rounded-t-lg transition-all relative shrink-0 touch-manipulation ${
                 activeTab === "About Me"
                   ? "bg-[#f5f6f7] text-gray-600 border-x border-t border-[#d0d0d0] -mb-px z-10 shadow-sm"
                   : "text-gray-600 hover:bg-[#c4daf3] hover:text-gray-600 bg-[#dce8f5]"
@@ -291,7 +291,7 @@ export function Ribbon({
             </button>
             <button 
               onClick={() => onTabChange("Projects")}
-              className={`px-6 py-2.5 text-sm font-medium rounded-t-lg transition-all relative ${
+              className={`px-3 md:px-6 py-2 md:py-2.5 text-xs md:text-sm font-medium rounded-t-lg transition-all relative shrink-0 touch-manipulation ${
                 activeTab === "Projects"
                   ? "bg-[#f5f6f7] text-gray-600 border-x border-t border-[#d0d0d0] -mb-px z-10 shadow-sm"
                   : "text-gray-600 hover:bg-[#c4daf3] hover:text-gray-600 bg-[#dce8f5]"
@@ -299,9 +299,10 @@ export function Ribbon({
             >
               Projects
             </button>
+            <div className="hidden md:block">
             <button 
               onClick={() => onTabChange("Free Paint")}
-              className={`px-6 py-2.5 text-sm font-medium rounded-t-lg transition-all relative ${
+              className={`px-3 md:px-6 py-2 md:py-2.5 text-xs md:text-sm font-medium rounded-t-lg transition-all relative shrink-0 touch-manipulation ${
                 activeTab === "Free Paint"
                   ? "bg-[#f5f6f7] text-gray-600 border-x border-t border-[#d0d0d0] -mb-px z-10 shadow-sm"
                   : "text-gray-600 hover:bg-[#c4daf3] hover:text-gray-600 bg-[#dce8f5]"
@@ -309,6 +310,7 @@ export function Ribbon({
             >
               Canvas
             </button>
+            </div>
           </nav>
         </div>
         <div className="flex items-center ml-auto">
@@ -317,7 +319,7 @@ export function Ribbon({
 
       {/* Canvas Controls */}
       {activeTab !== "Projects" && activeTab !== "About Me" && (
-      <div className="flex items-stretch px-2 py-1 h-[90px]">
+      <div className="hidden md:flex items-stretch px-2 py-1 h-[90px]">
 
       <div className="flex flex-col items-center h-full pl-4">
           <div className="flex items-start gap-0.5 flex-1">
@@ -387,33 +389,6 @@ export function Ribbon({
         </div>
 
         <GroupDivider />
-
-        {/* Edit Group */}
-        {/* <div className="flex flex-col items-center h-full">
-          <div className="flex flex-col items-center gap-1 flex-1 justify-center">
-           
-            <div className="flex gap-0.5">
-              <button
-                onClick={onUndo}
-                className="flex items-center justify-center w-8 h-5 hover:bg-[#e5e5e5] rounded-sm text-[10px]"
-                title="Undo (Ctrl+Z)"
-              >
-                ↩
-              </button>
-              <button
-                onClick={onRedo}
-                className="flex items-center justify-center w-8 h-5 hover:bg-[#e5e5e5] rounded-sm text-[10px]"
-                title="Redo (Ctrl+Y)"
-              >
-                ↪
-              </button>
-            </div>
-          </div>
-          <GroupLabel>Edit</GroupLabel>
-        </div> */}
-
-        {/* Canvas Group */}
-
       
         {/* Tools Group */}
         <div className="flex flex-col items-center h-full">
