@@ -32,6 +32,8 @@ const PRESET_COLORS = [
   "#ffffff", "#c3c3c3", "#b97a57", "#ffaec9", "#ffc90e", "#efe4b0", "#b5e61d", "#99d9ea", "#7092be", "#c8bfe7",
 ];
 
+const shapeIconClassName = "w-4 h-4 text-gray-700";
+
 
 export function Ribbon({
   activeTool,
@@ -432,13 +434,61 @@ export function Ribbon({
         <div className="flex flex-col items-center h-full">
           <div className="flex gap-1 flex-1">
             <div className="grid grid-cols-3 gap-0.5 content-start">
-              <ToolButton tool="line" icon="╱" label="Line" />
-              <ToolButton tool="arc" icon="⌒" label="Arc" />
-              <ToolButton tool="rectangle" icon="▭" label="Rectangle" />
-              <ToolButton tool="triangle" icon="△" label="Triangle" />
+              <ToolButton
+                tool="line"
+                icon={
+                  <svg viewBox="0 0 24 24" className={shapeIconClassName} aria-hidden="true">
+                    <path d="M5 19L19 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                }
+                label="Line"
+              />
+              <ToolButton
+                tool="arc"
+                icon={
+                  <svg viewBox="0 0 24 24" className={shapeIconClassName} aria-hidden="true">
+                    <path d="M4 16A8 8 0 0 1 20 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                }
+                label="Arc"
+              />
+              <ToolButton
+                tool="rectangle"
+                icon={
+                  <svg viewBox="0 0 24 24" className={shapeIconClassName} aria-hidden="true">
+                    <rect x="5" y="7" width="14" height="10" fill="none" stroke="currentColor" strokeWidth="2" rx="1" />
+                  </svg>
+                }
+                label="Rectangle"
+              />
+              <ToolButton
+                tool="triangle"
+                icon={
+                  <svg viewBox="0 0 24 24" className={shapeIconClassName} aria-hidden="true">
+                    <path d="M12 5L4 19H20L12 5Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+                  </svg>
+                }
+                label="Triangle"
+              />
               {/* <ToolButton tool="arrow" icon="▷" label="Arrow" /> */}
-              <ToolButton tool="diamond" icon="◇" label="Diamond" />
-              <ToolButton tool="circle" icon="⬭" label="Curcle" />
+              <ToolButton
+                tool="diamond"
+                icon={
+                  <svg viewBox="0 0 24 24" className={shapeIconClassName} aria-hidden="true">
+                    <path d="M12 4L20 12L12 20L4 12L12 4Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+                  </svg>
+                }
+                label="Diamond"
+              />
+              <ToolButton
+                tool="circle"
+                icon={
+                  <svg viewBox="0 0 24 24" className={shapeIconClassName} aria-hidden="true">
+                    <ellipse cx="12" cy="12" rx="8" ry="6" fill="none" stroke="currentColor" strokeWidth="2" />
+                  </svg>
+                }
+                label="Circle"
+              />
             </div>
             <div className="flex flex-col gap-0.5">
               {/* Outline Dropdown */}

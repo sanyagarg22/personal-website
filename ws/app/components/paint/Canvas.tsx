@@ -273,7 +273,7 @@ export function Canvas({
     ctx.putImageData(imageData, 0, 0);
   }, []);
 
-  const drawShape = useCallback((startX: number, startY: number, endX: number, endY: number, color: string, isPreview: boolean = false) => {
+  const drawShape = useCallback((startX: number, startY: number, endX: number, endY: number, isPreview: boolean = false) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -284,8 +284,9 @@ export function Canvas({
       ctx.putImageData(savedImageData, 0, 0);
     }
     
-    ctx.strokeStyle = color;
-    ctx.fillStyle = color;
+    // Shapes always use primary for outline and secondary for fill.
+    ctx.strokeStyle = primaryColor;
+    ctx.fillStyle = secondaryColor;
     ctx.lineWidth = brushSize;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
@@ -336,7 +337,6 @@ export function Canvas({
         ctx.stroke();
       }
     } else {
-      // For shapes, apply fill first, then outline
       if (fillStyle === "solid") {
         ctx.fill();
       }
@@ -347,7 +347,7 @@ export function Canvas({
     
     // Reset line dash
     ctx.setLineDash([]);
-  }, [brushSize, savedImageData, activeTool, outlineStyle, fillStyle]);
+  }, [brushSize, savedImageData, activeTool, outlineStyle, fillStyle, primaryColor, secondaryColor]);
 
 
   const renderText = useCallback((x: number, y: number, text: string, color: string) => {
@@ -614,7 +614,7 @@ export function Canvas({
     onCursorMove?.(Math.round(x), Math.round(y));
     if (isDrawingShape && shapeStart) {
       // draw shape preview
-      drawShape(shapeStart.x, shapeStart.y, x, y, currentColor, true);
+      drawShape(shapeStart.x, shapeStart.y, x, y, true);
     }
     else if (isDrawing) {
       draw(x, y, currentColor);
@@ -636,7 +636,7 @@ export function Canvas({
           ctx.putImageData(savedImageData, 0, 0);
         }
       }
-      drawShape(shapeStart.x, shapeStart.y, x, y, currentColor, false);
+      drawShape(shapeStart.x, shapeStart.y, x, y, false);
       setSavedImageData(null);
       setShapeStart(null);
     }
